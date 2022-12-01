@@ -1,0 +1,49 @@
+﻿@model List<Attendence>
+@{
+    ViewData["Title"] = "Attendance Report";
+}
+
+<h1>Attendance Report</h1>
+
+<table class="table table-light">
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Date</th>
+            <th>Start Of Certain Time</th>
+            <th>End Of Certain Time</th>
+            <th>Checked In</th>
+            <th>Checked Out</th>
+            <th>Checked In Comment</th>
+            <th>Checked Out Comment</th>
+            <th>Attended</th>
+            <th>Delayed</th>
+            <th>Absented</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attendence in Model)
+        {
+            <tr>
+                <td>@attendence.Day</td>
+                <td>@attendence.DateTime</td>
+                <td>@attendence.CertainOfStartTime</td>
+                <td>@attendence.CertainOfEndTime</td>
+                <td>@attendence.CheckedIn</td>
+                <td>@attendence.CheckedOut</td>
+                <td>@attendence.CheckedInComment</td>
+                <td>@attendence.CheckedOutComment</td>
+                <td> @attendence.IsAttended </td>
+                <td></td>
+                <td></td>
+                  
+                @*else{
+                    <td></td>
+                    <td></td>
+                    <td> NO </td>
+                }*@
+
+            </tr>
+        }
+    </tbody>
+</table>

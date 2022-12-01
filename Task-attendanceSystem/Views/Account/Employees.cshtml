@@ -1,0 +1,39 @@
+﻿@model List<ApplicationUser>
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h1>Employees</h1>
+
+<a asp-action="Registeration" asp-controller="Account">Register New Employee</a>
+<table class="table table-light">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Address</td>
+                <td>
+                    @*@Html.ActionLink("Make Time Attendance","MakeAttendanceTime",new{id=user.Id})*@
+
+                    <a asp-route-id="@user.Id" asp-action="MakeAttendanceTime" asp-controller="Account" class="btn btn-primary">Make Time Attendance</a>
+                </td>
+                <td>
+                    <a asp-action="ShowAttendance" asp-controller="Account" asp-route-id="@user.Id" class="btn btn-primary">Attendance Report</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

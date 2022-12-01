@@ -1,0 +1,20 @@
+﻿@model LoginVM
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+<h1>Login</h1>
+
+<form asp-action="SignIn" asp-controller="Account" method="post">
+    <br />
+    <label asp-for="UserName"></label>
+    <input asp-for="UserName" /><br />
+    <br />
+    <label asp-for="Password"></label>
+    <input asp-for="Password" /><br />
+    <br />
+    <label asp-for="RememberMe"></label>
+    <input asp-for="RememberMe" /><br />
+    <br /><input type="submit" value="login" /><br />
+</form>
+

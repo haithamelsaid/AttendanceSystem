@@ -1,0 +1,57 @@
+﻿@model List<Attendence>
+@{
+    ViewData["Title"] = "Attendance Report";
+}
+
+<h1>Attendance Report</h1>
+
+<table class="table table-light">
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Date</th>
+            <th>Start Of Certain Time</th>
+            <th>End Of Certain Time</th>
+            <th>Checked In Comment</th>
+            <th>Checked In</th>
+            <th>Checked Out Comment</th>
+            <th>Checked Out</th>
+             
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attendence in Model)
+        {
+            <tr>
+                <form >
+                <td>@attendence.Day</td>
+                <td>@attendence.DateTime</td>
+                <td>@attendence.CertainOfStartTime</td>
+                <td>@attendence.CertainOfEndTime</td>
+
+                    <td>
+                        <input type="text" value="@attendence.CheckedInComment">
+                    </td>
+                    <td>
+                        <input type="submit" value="CheckedIn" asp-action="CheckedInSubmit" asp-controller="Home" asp-route-id="@attendence.Id">
+                    </td>
+
+
+                @*<form asp-action="CheckedOutSubmit" asp-controller="Home" asp-route-id="@attendence.Id">*@
+
+                    <td>
+                        <input type="text" value="@attendence.CheckedOutComment">
+                    </td>
+                    <td>
+                        <input type="submit" value="CheckedOut" asp-action="CheckedOutSubmit" asp-controller="Home" asp-route-id="@attendence.Id">
+                    </td>
+
+                @*</form>*@
+
+                 
+                </form>
+
+            </tr>
+        }
+    </tbody>
+</table>
