@@ -45,6 +45,7 @@ namespace Task_attendanceSystem.Controllers
                 };
                 IdentityResult result = await userManager.CreateAsync(user, registerationVm.Password);
                 await userManager.AddToRoleAsync(user, "Employee");
+                //await userManager.AddToRoleAsync(user, "Admin");
                 if (!result.Succeeded)
                 {
                     foreach(var error in result.Errors)
@@ -91,7 +92,7 @@ namespace Task_attendanceSystem.Controllers
         [HttpGet]
         public IActionResult Employees()
         {
-            List<ApplicationUser> users = userManager.Users.ToList();
+            List<ApplicationUser> users = userManager.Users.Where(x=>x.UserName!="Admin").ToList();
             return View(users);
         }
         public async Task<IActionResult> SignOut()
