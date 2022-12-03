@@ -5,10 +5,18 @@
 
 <h1>Make Attendance Time</h1>
 
-<form asp-action="MakeAttendanceTime" asp-controller="Account" asp-route-id="@ViewBag.id"
+<form asp-action="MakeAttendanceTime" asp-controller="Account" 
       method="post" >
 
     <div asp-validation-summary="All"></div>
+
+    <div class="form-group" hidden>
+        <label asp-for="Id"></label>
+        <input asp-for="Id" class="form-control" type="number" data-val="true" value="@Model.Id" placeholder="Enter Own Id" />
+    </div><div class="form-group" hidden>
+        <label asp-for="AccId"></label>
+        <input asp-for="AccId" class="form-control" type="text" data-val="true" value="@Model.AccId" placeholder="Enter Own Id" />
+    </div>
     <div class="form-group">
         <label asp-for="Day"></label>
         <select class="form-control" asp-for="Day" >

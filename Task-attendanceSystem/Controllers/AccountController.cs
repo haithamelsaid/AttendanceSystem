@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using Task_attendanceSystem.Models;
 using Task_attendanceSystem.ViewModels;
@@ -30,7 +32,8 @@ namespace Task_attendanceSystem.Controllers
 
             return View();
         }
-       [Authorize(Roles ="Admin")]
+
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         public async Task<IActionResult> Registeration(RegisterationVM registerationVm)
         {
@@ -88,11 +91,13 @@ namespace Task_attendanceSystem.Controllers
             return View(loginVM);
 
         }
+
         [Authorize(Roles ="Admin")]
         [HttpGet]
         public IActionResult Employees()
         {
-            List<ApplicationUser> users = userManager.Users.Where(x=>x.UserName!="Admin").ToList();
+
+            List<ApplicationUser> users = db.ApplicationUsers.Where(c=>c.UserName.Contains("mploye")).ToList();
             return View(users);
         }
         public async Task<IActionResult> SignOut()
@@ -100,26 +105,38 @@ namespace Task_attendanceSystem.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        [Authorize(Roles ="Admin")]
         //[Route("/{id}")]
         public IActionResult MakeAttendanceTime(string id)
         {
             //if (id == appUser.UserName)
             //if (userName == User.Identity.Name)
             //{
-            ViewBag.id = id;
+            //ViewBag.id = id;
+            MakeAttendanceTimeVM makeAttendanceTimeVM = new MakeAttendanceTimeVM()
+            {
+                Id=10,
+                AccId=id, //must be id that belong to employee
+                Day=DateTime.Now.DayOfWeek,
+                DateTime=DateTime.Now.Date,
+                CertainOfStartTime=DateTime.Now.TimeOfDay,
+                CertainOfEndTime=DateTime.Now.TimeOfDay,
+
+            };
             //this not work that i delete it
             //TempData["id"] = id;
-            return View();
+            return View(makeAttendanceTimeVM);
             //}
             //else
             //{
               //  return RedirectToAction(nameof(Employees));
             //}
         }
-         
+        [Authorize(Roles ="Admin")]
         //[Route("/{id}")]
         [HttpPost]
-        public IActionResult MakeAttendanceTime(string id,[FromForm]MakeAttendanceTimeVM makeAttendanceTimeVM)
+        public IActionResult MakeAttendanceTime([FromForm]MakeAttendanceTimeVM makeAttendanceTimeVM)
         {
              Attendence attendence = new Attendence();
             //id = TempData["id"].ToString();
@@ -128,20 +145,22 @@ namespace Task_attendanceSystem.Controllers
             //final  that true ISA
             //if (id == TempData["id"].ToString())
             //{
-                attendence.ApplicationUserGuid = id;
             //}
-
+            //string id = db.ApplicationUsers.Single(x => x.UserName == User.Identity.Name).Id;
+            attendence.Id = makeAttendanceTimeVM.Id;
+            attendence.ApplicationUserGuid = makeAttendanceTimeVM.AccId;
             attendence.Day= makeAttendanceTimeVM.Day;
             attendence.DateTime= makeAttendanceTimeVM.DateTime;
             attendence.CertainOfStartTime= makeAttendanceTimeVM.CertainOfStartTime;
             attendence.CertainOfEndTime= makeAttendanceTimeVM.CertainOfEndTime;
-            
+
             //why not work i don't know
             //attendence.ApplicationUserGuid = (string)TempData["id"];
             
             
             //attendence.Id = makeAttendanceTimeVM.Id;
             //attendence.ApplicationUserGuid = userManager.FindByIdAsync();
+                
             db.Attendences.Add(attendence);
             db.SaveChanges();
             return RedirectToAction("Employees");
@@ -149,7 +168,7 @@ namespace Task_attendanceSystem.Controllers
 
         //public IActionResult ShowAttendance([FromRoute] int id)
         // need it   [Route("/{id}")]
-       // need it public IActionResult ShowAttendance(string id)
+        // need it public IActionResult ShowAttendance(string id)
         public IActionResult ShowAttendance(string id)
         {
             

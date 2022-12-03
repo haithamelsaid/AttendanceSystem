@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
 using Task_attendanceSystem.Models;
@@ -22,7 +24,7 @@ namespace Task_attendanceSystem.Controllers
          {
 
         //    _logger = logger;
-       //      this.userManager = userManager;
+        //    this.userManager = userManager;
         //    this.roleManager = roleManager;
         //    this.signInManager = signInManager;
             this.db = db;
@@ -33,14 +35,16 @@ namespace Task_attendanceSystem.Controllers
         {
             return View();
         }
+        [Authorize(Roles ="Employee")]
         public IActionResult mydays(string name)
         {
+            string id=db.ApplicationUsers.Single(x=>x.UserName==name).Id ;
 
-
-            List<Attendence> attendences = db.Attendences.Where(x => x.applicationUser.UserName ==name).ToList();
+            List<Attendence>? attendences = db.Attendences.Where(x=>x.ApplicationUserGuid==id).ToList();
+            //List<Attendence> attendences = db.Attendences.Include(x=>x.applicationUser).Where(x => x.applicationUser.UserName ==name).ToList();
             return View(attendences);
         }
-        //        [HttpPut]
+        // [HttpPut]
         public IActionResult CheckedInSubmit(int id, checkedinVM checkedin)
         {
 
@@ -77,6 +81,7 @@ namespace Task_attendanceSystem.Controllers
             db.SaveChanges();
             return View("Index", "Home");
         }
+
         //public IActionResult CheckedOutSubmit(int id)
         //{
         //    Attendence attendence = db.Attendences.Where(x => x.Id == id).Single();

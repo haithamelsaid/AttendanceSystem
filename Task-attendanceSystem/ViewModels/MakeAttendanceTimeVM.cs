@@ -5,6 +5,7 @@ namespace Task_attendanceSystem.ViewModels
     public class MakeAttendanceTimeVM
     {
         public int Id { get; set; }
+        public string AccId { get; set; }
         public DayOfWeek Day { get; set; }
         public DateTime DateTime { get; set; }
         public TimeSpan CertainOfStartTime { get; set; }
