@@ -16,3 +16,10 @@ on the other hand, belong to employees make check-in and check-out according to 
 
 ·         Login to system.
 ·         Two button to add his check in and another one for check out.(get actual time from PC – Can write a comment with his check in & out).
+
+Technology:
+............
+
+HTML, CSS, JS, BOOTSTRAP, BLAZOR FRAMEWORK, 
+.NET CORE framework MVC Design pattern 
+Identity for authentication
