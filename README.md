@@ -23,3 +23,8 @@ Technology:
 HTML, CSS, JS, BOOTSTRAP, BLAZOR FRAMEWORK, 
 .NET CORE framework MVC Design pattern 
 Identity for authentication
+
+
+Presentation of this task here :
+
+https://www.youtube.com/watch?v=dmkr_Be75ko
